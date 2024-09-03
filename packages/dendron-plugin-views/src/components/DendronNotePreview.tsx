@@ -67,6 +67,10 @@ const useClickHandler = (noteId?: string) => {
   }, [onClickHandler]);
 };
 
+function removeTextInSquareBrackets(text: string): string {
+  return text.replace(/\[.*?\]/g, '');
+}
+
 const DendronNotePreview: DendronComponent = (props) => {
   const ctx = "DendronNotePreview";
   const logger = createLogger("DendronNotePreview");
@@ -122,9 +126,11 @@ const DendronNotePreview: DendronComponent = (props) => {
     });
   };
 
+  const sanitizedNoteBody = removeTextInSquareBrackets(noteRenderedBody);
+
   return (
     <>
-      <DendronNote noteContent={noteRenderedBody} />
+      <DendronNote noteContent={sanitizedNoteBody} />
       <Button
         shape="circle"
         icon={isLocked ? <LockFilled /> : <UnlockOutlined />}
